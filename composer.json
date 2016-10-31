@@ -1,0 +1,23 @@
+{
+    "name": "dosarkz/epayKazcom",
+    "description": "Payment service from Kazkommertsbank",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Yerzhan Ashenov",
+            "email": "ashenov.e@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Dosarkz\\EpayKazcom\\Tests\\": "tests/",
+            "Dosarkz\\EPayKazCom\\": "src/"
+        }
+    }
+}

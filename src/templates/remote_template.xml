@@ -1,0 +1,1 @@
+<merchant id="[MERCHANT_ID]"><command type="[COMMAND_TYPE]"/><payment reference="[REFERENCE]" approval_code="[APPROVAL_CODE]" orderid="[ORDER_ID]" amount="[AMOUNT]" currency_code="[CURRENCY]"/><reason>Only for reverse</reason></merchant>
