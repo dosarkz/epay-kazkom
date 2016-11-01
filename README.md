@@ -7,13 +7,13 @@ Payment package kazcom epay api for laravel 5.2
   php artisan vendor:publish --force
 ```
 
-##Add service provider to config/app.php
+##Service provider to config/app.php
 
 ```
   Dosarkz\EPayKazCom\EpayServiceProvider::class
 ```
 
-##Add facade 
+##Facade 
 
 ``` 
 'Epay' => \Dosarkz\EPayKazCom\Facades\Epay::class
