@@ -13,7 +13,7 @@ Payment package kazcom epay api for laravel 5.2
   Dosarkz\EPayKazCom\EpayServiceProvider::class
 ```
 
-#Add facade 
+##Add facade 
 
 ``` 
 'Epay' => \Dosarkz\EPayKazCom\Facades\Epay::class
