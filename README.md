@@ -1,4 +1,4 @@
-# kazcom epay service
+# Qazkom epay service
 Payment package kazcom epay api for laravel 5.2
 ## Install
 ##Publish config file 
