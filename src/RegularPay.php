@@ -84,7 +84,7 @@ class RegularPay extends Epay
 
         $context  = stream_context_create($opts);
 
-        if(true)
+        if(config('epay.pay_test_mode') == true)
         {
             $result = file_get_contents('https://testpay.kkb.kz/jsp/hbpay/rec.jsp', false, $context);
         }else{
