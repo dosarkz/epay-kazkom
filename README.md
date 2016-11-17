@@ -22,12 +22,13 @@ Payment package kazcom epay api for laravel 5.2
 ###Basic auth pay example:
 
 ```
-  Epay::basicAuth([
+$pay =  Epay::basicAuth([
               'order_id' => 01111111111,
               'currency' => '398',
               'amount' => 9999,
               'hashed' => true,
-          ]);
-  $pay->generateUrl();
+        ]);
+          
+$pay->generateUrl();
 ```
 
