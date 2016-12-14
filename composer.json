@@ -9,11 +9,16 @@
         }
     ],
     "minimum-stability": "dev",
-    "prefer-stable" : true,
     "require-dev": {
         "phpunit/phpunit": "~4.6"
     },
     "autoload": {
+        "classmap": [
+            "src/config",
+            "src/Facades",
+            "src/templates",
+            "src/certificates"
+        ],
         "psr-4": {
             "Dosarkz\\EpayKazcom\\Tests\\": "tests/",
             "Dosarkz\\EPayKazCom\\": "src/"
