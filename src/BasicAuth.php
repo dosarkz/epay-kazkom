@@ -66,6 +66,7 @@ class BasicAuth extends Epay
         $back_link = config('epay.EPAY_BACK_LINK');
         $post_link = config('epay.EPAY_POST_LINK');
         $form_template = config('epay.EPAY_FORM_TEMPLATE');
+        $test_mode = config('epay.pay_test_mode');
 
         $request->merge([
             'Signed_Order_B64'  =>  $this->template,
@@ -95,7 +96,7 @@ class BasicAuth extends Epay
         $params = http_build_query($request->only(['Signed_Order_B64','email','BackLink','PostLink',
             'template']));
 
-        if(config('epay.pay_test_mode') == true)
+        if($test_mode == true)
         {
             $url = 'https://testpay.kkb.kz/jsp/process/logon.jsp';
         }else{
