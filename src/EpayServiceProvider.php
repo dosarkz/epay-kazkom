@@ -20,11 +20,7 @@ class EpayServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             __DIR__.'/config/epay.php', 'epay'
         );
-
-
     }
-
-    protected $defer = true;
 
     /**
      * Register the application services.
@@ -33,7 +29,6 @@ class EpayServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
         $this->app['epay'] = $this->app->share(function($app)
         {
             return new Epay();
