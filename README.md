@@ -1,5 +1,5 @@
 # kazcom epay service
-Payment package kazcom epay api for laravel 5.2
+Payment package kazcom epay api for laravel 5.2 & 5.3
 ## Install
 ```
 composer require dosarkz/epay-kazcom
