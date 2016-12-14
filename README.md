@@ -20,7 +20,7 @@ composer require dosarkz/epay-kazcom
 ##Publish config file 
 
 ```
-  php artisan vendor:publish --force
+  php artisan vendor:publish
 ```
 
 ###Basic auth pay example:
