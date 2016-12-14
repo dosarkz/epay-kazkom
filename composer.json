@@ -8,7 +8,7 @@
             "email": "ashenov.e@gmail.com"
         }
     ],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "require": {
     },
     "require-dev": {
