@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 /**
- * Class RecurAuthPay
+ * Class BasicAuth
  * @package packages\dosarkz\epayKazcom\src
  */
 class BasicAuth extends Epay
@@ -69,8 +69,8 @@ class BasicAuth extends Epay
 
         $request->merge([
             'Signed_Order_B64'  =>  $this->template,
-            'BackLink'          =>  isset($back_link) ? env('EPAY_BACK_LINK') : null,
-            'PostLink'          =>  isset($post_link) ? env('EPAY_POST_LINK') : null,
+            'BackLink'          =>  isset($back_link) ? $back_link : null,
+            'PostLink'          =>  isset($post_link) ? $post_link : null,
             'appendix'          =>  $this->appendix,
             'template'          =>  isset($form_template) ? $form_template : null
         ]);
@@ -104,7 +104,4 @@ class BasicAuth extends Epay
 
         return $url.'?'.$params;
     }
-
-
-
 }
