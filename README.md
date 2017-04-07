@@ -36,3 +36,15 @@ $pay =  Epay::basicAuth([
 $pay->generateUrl();
 ```
 
+###Recurrent auth pay example:
+```
+$pay =  Epay::recurrentAuthPay([
+                'order_id' => 01111111111,
+                'currency' => '398',
+                'person_id' => 1,
+                'amount' =>  9999,
+                'recur_freq' => 100,
+                'recur_exp' => 20221231,
+                'hashed' => true,
+]);
+```
