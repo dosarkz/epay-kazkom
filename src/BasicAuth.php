@@ -72,6 +72,7 @@ class BasicAuth extends Epay
             'Signed_Order_B64'  =>  $this->template,
             'BackLink'          =>  isset($back_link) ? $back_link : null,
             'PostLink'          =>  isset($post_link) ? $post_link : null,
+            'email'             =>  $this->email,
             'appendix'          =>  $this->appendix,
             'template'          =>  isset($form_template) ? $form_template : null
         ]);
