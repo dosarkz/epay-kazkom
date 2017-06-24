@@ -5,25 +5,25 @@ Payment package kazcom epay api for laravel 5.2 & 5.3
 composer require dosarkz/epay-kazcom
 ```
 
-##Service provider to config/app.php
+## Service provider to config/app.php
 
 ```
   Dosarkz\EPayKazCom\EpayServiceProvider::class
 ```
 
-##Facade 
+## Facade 
 
 ``` 
 'Epay' => \Dosarkz\EPayKazCom\Facades\Epay::class
 ```
 
-##Publish config file 
+## Publish config file 
 
 ```
   php artisan vendor:publish
 ```
 
-###Basic auth pay example:
+### Basic auth pay example:
 
 ```
 $pay =  Epay::basicAuth([
