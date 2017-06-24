@@ -93,7 +93,7 @@ class BasicAuth extends Epay
             return $validator->errors();
         }
 
-        $params = http_build_query($request->only(['Signed_Order_B64','email','BackLink','PostLink',
+        $params = http_build_query($request->only(['Signed_Order_B64','email','BackLink','PostLink', 'appendix',
             'template']));
 
         if($test_mode == true)
