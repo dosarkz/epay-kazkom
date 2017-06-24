@@ -87,6 +87,7 @@ class RecurAuthPay extends Epay
             'BackLink'          =>  isset($back_link) ? config('epay.EPAY_BACK_LINK') : null,
             'PostLink'          =>  isset($post_link) ? config('epay.EPAY_POST_LINK') : null,
             'appendix'          =>  $this->appendix,
+            'email'             =>  $this->email,
             'template'          =>  isset($form_template) ? $form_template : null
         ]);
 
