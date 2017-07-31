@@ -1,4 +1,6 @@
-# kazcom epay service
+# Qazcom epay service
+# Платежный сервис для КазКоммерцБанка https://epay.kkb.kz/home
+
 Payment package kazcom epay api for laravel 5.2 & 5.3
 ## Install
 ```
