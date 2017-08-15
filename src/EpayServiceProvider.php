@@ -29,7 +29,7 @@ class EpayServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app['epay'] = $this->app->share(function($app)
+        $this->app->singleton("epay", function($app)
         {
             return new Epay();
         });
