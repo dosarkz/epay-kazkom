@@ -30,6 +30,9 @@ class BasicAuth extends Epay
         $this->appendix         = $this->generateAppendix();
     }
 
+    /**
+     * @return null|string
+     */
     private function generateXml()
     {
         if(file_exists(__DIR__.'/'.$this->template_path)){
@@ -60,32 +63,37 @@ class BasicAuth extends Epay
         return null;
     }
 
+    /**
+     * @return string
+     */
     public function generateUrl()
     {
         $request = new Request();
-        $back_link = config('epay.EPAY_BACK_LINK');
-        $post_link = config('epay.EPAY_POST_LINK');
-        $form_template = config('epay.EPAY_FORM_TEMPLATE');
-        $test_mode = config('epay.pay_test_mode');
+        $back_link          = config('epay.EPAY_BACK_LINK');
+        $post_link          = config('epay.EPAY_POST_LINK');
+        $form_template      = config('epay.EPAY_FORM_TEMPLATE');
+        $test_mode          = config('epay.pay_test_mode');
+        $failure_post_link  = config('epay.EPAY_FAILURE_POST_LINK');
 
         $request->merge([
             'Signed_Order_B64'  =>  $this->template,
             'BackLink'          =>  isset($back_link) ? $back_link : null,
             'PostLink'          =>  isset($post_link) ? $post_link : null,
             'email'             =>  $this->email,
+            'FailurePostLink'   =>  isset($failure_post_link) ? $failure_post_link : null,
             'appendix'          =>  $this->appendix,
             'template'          =>  isset($form_template) ? $form_template : null
         ]);
 
         $validator = Validator::make($request->all(),
             [
-                'Signed_Order_B64'  => 'required',
-                'email'             => 'email',
-                'appendix'          => 'required',
-                'BackLink'         => 'required',
-                'PostLink'         => 'required',
-                'FailureBackLink'    => 'string',
-                'template'          => 'string',
+                'Signed_Order_B64'      => 'required',
+                'email'                 => 'email',
+                'appendix'              => 'required',
+                'BackLink'              => 'required',
+                'PostLink'              => 'required',
+                'FailureBackLink'       => 'string',
+                'template'              => 'string',
             ]
         );
 
@@ -94,8 +102,15 @@ class BasicAuth extends Epay
             return $validator->errors();
         }
 
-        $params = http_build_query($request->only(['Signed_Order_B64','email','BackLink','PostLink', 'appendix',
-            'template']));
+        $params = http_build_query($request->only([
+            'Signed_Order_B64',
+            'email',
+            'BackLink',
+            'PostLink',
+            'FailurePostLink',
+            'appendix',
+            'template',
+        ]));
 
         if($test_mode == true)
         {
