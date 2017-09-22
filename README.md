@@ -32,7 +32,7 @@ $pay =  Epay::basicAuth([
               'order_id' => 01111111111,
               'currency' => '398',
               'amount' => 9999,
-              'email' => 'your-email@gmail.com'
+              'email' => 'your-email@gmail.com',
               'hashed' => true,
         ]);
           
