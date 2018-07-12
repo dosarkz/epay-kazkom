@@ -2,18 +2,23 @@
 # Платежный сервис для КазКоммерцБанка https://epay.kkb.kz/home
 
 Payment package kazcom epay api for laravel 5.2 - 5.6
+
+<a href="https://testpay.kkb.kz/doc/htm/">Epay docs</a>
+
 ## Install
 ```
 composer require dosarkz/epay-kazcom
 ```
 
-## Service provider to config/app.php
+## For laravel 5.4 
+
+### Service provider to config/app.php
 
 ```
   Dosarkz\EPayKazCom\EpayServiceProvider::class
 ```
 
-## Facade 
+### Facade 
 
 ``` 
 'Epay' => \Dosarkz\EPayKazCom\Facades\Epay::class
@@ -25,11 +30,12 @@ composer require dosarkz/epay-kazcom
   php artisan vendor:publish
 ```
 
-### Basic auth pay example:
+## Epay requests
 
-```
+### Basic auth pay example
+```php
 $pay =  Epay::basicAuth([
-              'order_id' => 01111111111,
+              'order_id' => '01111111111',
               'currency' => '398',
               'amount' => 9999,
               'email' => 'your-email@gmail.com',
@@ -39,3 +45,102 @@ $pay =  Epay::basicAuth([
 $pay->generateUrl();
 ```
 
+### Check pay example
+```php
+$checkPay = Epay::checkPay( [ 'order_id' => '01111111111' ] );
+
+$response = Epay::request( $checkPay->generateUrl() );
+```
+
+### Check pay example
+```php
+$checkPay = Epay::checkPay( [ 'order_id' => '01111111111' ] );
+
+$response = Epay::request( $checkPay->generateUrl() );
+```
+
+### Control pay example
+```php
+$controlPay = Epay::controlPay( [
+    'order_id' => '01111111111',
+    'amount' => 9999,
+    'approval_code' => '170407',
+    'reference' => '180711170407',
+    'currency' => '398',
+    'command_type' => 'complete', 
+    'reason' => 'for test'
+    ] );
+
+$response = Epay::request( $controlPay->generateUrl() );
+```
+
+## Epay responses
+
+### Basic auth POST_LINK response parser
+```php
+$response = request()->input('response');
+
+if (isset($response))
+{
+    $payResponse = new BasicAuthResponse( $response );
+
+    $orderId = $payResponse->getOrderId();
+
+    // ... get order amount for check
+    
+    $amount = 9999;
+    Log::info( $payResponse->getResponse() );
+    Log::info( 'pay status=' . ($payResponse->isSuccess( [ 'amount' => $amount ] ) ? 'success' : 'fail') );
+
+} 
+```
+
+### Check pay response parser
+```php
+$checkPay = Epay::checkPay( [ 'order_id' => '01111111111' ] );
+
+$response = Epay::request( $checkPay->generateUrl() );
+
+if ($response) {
+    $checkPayResponse = new CheckPayResponse( $response );
+    
+    Log::info( 'state=' . $checkPayResponse->getPayState() );
+    Log::info( 'status=' . ( $checkPayResponse->isSuccess() ? 'success' : 'fail' ));
+    Log::info( $checkPayResponse->getResponse() );
+}
+
+return 'response is empty';
+```
+
+### Control pay response parser
+```php
+$controlPay = Epay::controlPay( [
+            'order_id' => '01111111111',
+            'amount' => 9999,
+            'approval_code' => '170407',
+            'reference' => '180711170407',
+            'currency' => '398',
+            'command_type' => 'complete', //reverse || complete || refund
+            'reason' => 'for test'
+            ] );
+            
+$url = $controlPay->generateUrl();
+            
+if ( is_string($url) ) {
+
+    $response = Epay::request( $url );
+
+    if ($response) {
+
+        $controlPayResponse = new ControlPayResponse( $response );
+
+        Log::info( 'message=' . $controlPayResponse->getResponseMessage() );
+        Log::info( 'status=' . ( $controlPayResponse->isSuccess() ? 'success' : 'fail' ));
+
+        Log::info( $controlPayResponse->getResponse() ); 
+    } 
+} 
+```
+
+
+   
