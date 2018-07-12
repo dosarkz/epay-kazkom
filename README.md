@@ -80,9 +80,9 @@ $response = Epay::request( $controlPay->generateUrl() );
 ```php
 $response = request()->input('response');
 
-if (isset($response))
+if ($response)
 {
-    $payResponse = new BasicAuthResponse( $response );
+    $payResponse = Epay::handleBasicAuth( $response );
 
     $orderId = $payResponse->getOrderId();
 
@@ -102,14 +102,12 @@ $checkPay = Epay::checkPay( [ 'order_id' => '01111111111' ] );
 $response = Epay::request( $checkPay->generateUrl() );
 
 if ($response) {
-    $checkPayResponse = new CheckPayResponse( $response );
+    $checkPayResponse = Epay::handleCheckPay( $response );
     
     Log::info( 'state=' . $checkPayResponse->getPayState() );
     Log::info( 'status=' . ( $checkPayResponse->isSuccess() ? 'success' : 'fail' ));
     Log::info( $checkPayResponse->getResponse() );
 }
-
-return 'response is empty';
 ```
 
 ### Control pay response parser
@@ -132,7 +130,7 @@ if ( is_string($url) ) {
 
     if ($response) {
 
-        $controlPayResponse = new ControlPayResponse( $response );
+        $controlPayResponse = Epay::handleControlPay( $response );
 
         Log::info( 'message=' . $controlPayResponse->getResponseMessage() );
         Log::info( 'status=' . ( $controlPayResponse->isSuccess() ? 'success' : 'fail' ));

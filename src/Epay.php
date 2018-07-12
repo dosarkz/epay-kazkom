@@ -153,12 +153,38 @@ class Epay
     }
 
 	/**
+	 * Parse basic auth response
+	 *
+	 * @param string $rawResponse
+	 * @param array|null $mappedParams
+	 *
+	 * @return BasicAuthResponse
+	 */
+	public function handleBasicAuth($rawResponse, $mappedParams = [])
+	{
+		return new BasicAuthResponse($rawResponse, $mappedParams);
+	}
+
+	/**
 	 * @param $params
 	 * @return CheckPay
 	 */
 	public function checkPay($params)
 	{
 		return new CheckPay($params);
+	}
+
+	/**
+	 * Parse check pay response
+	 *
+	 * @param string $rawResponse
+	 * @param array|null $mappedParams
+	 *
+	 * @return CheckPayResponse
+	 */
+	public function handleCheckPay($rawResponse, $mappedParams = [])
+	{
+		return new CheckPayResponse($rawResponse, $mappedParams);
 	}
 
 	/**
@@ -170,7 +196,20 @@ class Epay
 		return new ControlPay($params);
 	}
 
-    public function recurrentAuth($params)
+	/**
+	 * Parse control pay response
+	 *
+	 * @param string $rawResponse
+	 * @param array|null $mappedParams
+	 *
+	 * @return ControlPayResponse
+	 */
+	public function handleControlPay($rawResponse, $mappedParams = [])
+	{
+		return new ControlPayResponse($rawResponse, $mappedParams);
+	}
+
+	public function recurrentAuth($params)
     {
         return new RecurAuthPay($params);
     }
