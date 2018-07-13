@@ -23,5 +23,12 @@
             "Dosarkz\\EpayKazcom\\Tests\\": "tests/",
             "Dosarkz\\EPayKazCom\\": "src/"
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Dosarkz\\EPayKazCom\\EpayServiceProvider"
+            ]
+        }
     }
 }

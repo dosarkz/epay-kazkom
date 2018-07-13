@@ -1,9 +1,6 @@
 <?php
 namespace Dosarkz\EPayKazCom;
 
-
-use Illuminate\Container\Container;
-
 class Epay
 {
     /**
@@ -82,6 +79,10 @@ class Epay
      * @var
      */
     public $approval_code;
+	/**
+	 * @var
+	 */
+	public $reason;
     /**
      * @var
      */
@@ -102,11 +103,21 @@ class Epay
      * @var
      */
     public $template;
+
     /**
      * @var
      */
     public $appendix;
 
+	/**
+	 * @var string
+	 */
+	public $epay_server_url;
+
+	/**
+	 * @var int
+	 */
+	public $request_timeout = 10;
 
     public function __construct()
     {
@@ -141,8 +152,64 @@ class Epay
         return new BasicAuth($params);
     }
 
+	/**
+	 * Parse basic auth response
+	 *
+	 * @param string $rawResponse
+	 * @param array|null $mappedParams
+	 *
+	 * @return BasicAuthResponse
+	 */
+	public function handleBasicAuth($rawResponse, $mappedParams = [])
+	{
+		return new BasicAuthResponse($rawResponse, $mappedParams);
+	}
 
-    public function recurrentAuth($params)
+	/**
+	 * @param $params
+	 * @return CheckPay
+	 */
+	public function checkPay($params)
+	{
+		return new CheckPay($params);
+	}
+
+	/**
+	 * Parse check pay response
+	 *
+	 * @param string $rawResponse
+	 * @param array|null $mappedParams
+	 *
+	 * @return CheckPayResponse
+	 */
+	public function handleCheckPay($rawResponse, $mappedParams = [])
+	{
+		return new CheckPayResponse($rawResponse, $mappedParams);
+	}
+
+	/**
+	 * @param $params
+	 * @return ControlPay
+	 */
+	public function controlPay($params)
+	{
+		return new ControlPay($params);
+	}
+
+	/**
+	 * Parse control pay response
+	 *
+	 * @param string $rawResponse
+	 * @param array|null $mappedParams
+	 *
+	 * @return ControlPayResponse
+	 */
+	public function handleControlPay($rawResponse, $mappedParams = [])
+	{
+		return new ControlPayResponse($rawResponse, $mappedParams);
+	}
+
+	public function recurrentAuth($params)
     {
         return new RecurAuthPay($params);
     }
@@ -154,7 +221,9 @@ class Epay
         $this->merchant_id              = '92061101';
         $this->private_key_path         = __DIR__.'/certificates/test_prv.pem';
         $this->private_key_pass         = 'nissan';
-        $this->public_key_path          = null;
+        $this->public_key_path          = __DIR__.'/certificates/kkbca.pem';
+        $this->epay_server_url          = 'https://testpay.kkb.kz';
+
     }
 
     private function setProductionParams()
@@ -165,6 +234,8 @@ class Epay
         $this->private_key_path         = config('epay.PRIVATE_KEY_PATH');
         $this->private_key_pass         = config('epay.PRIVATE_KEY_PASS');
         $this->public_key_path          = config('epay.PUBLIC_KEY_PATH');
+	    $this->epay_server_url          = 'https://epay.kkb.kz';
+
     }
 
 
@@ -217,6 +288,7 @@ class Epay
                 $template =  $this->generateXmlTemplate($header_template,$kkb);
 
                 break;
+
         }
 
         return $template;
@@ -288,23 +360,21 @@ class Epay
         curl_setopt($ch, CURLOPT_FAILONERROR, 1);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);// allow redirects
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); // return into a variable
-        curl_setopt($ch, CURLOPT_TIMEOUT, 3); // times out after 4s
+        curl_setopt($ch, CURLOPT_TIMEOUT, $this->request_timeout); // times out after 4s
         curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
         $result = curl_exec($ch); // run the whole process
         curl_close($ch);
         return $result;
     }
 
-    /**
-     * @param $path
-     * @return string
-     */
-    public  function readXmlFile($path)
-    {
-        $doc = new \DOMDocument();
-        $doc->load($path);
-        return $doc->saveXML($doc->documentElement);
-    }
-
-
+	/**
+	 * @param $path
+	 * @return string
+	 */
+	public  function readXmlFile($path)
+	{
+		$doc = new \DOMDocument();
+		$doc->load($path);
+		return $doc->saveXML($doc->documentElement);
+	}
 }

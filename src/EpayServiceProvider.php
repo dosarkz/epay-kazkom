@@ -1,8 +1,9 @@
 <?php
 namespace Dosarkz\EPayKazCom;
 
-use Illuminate\Support\Facades\App;
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
+use Dosarkz\EPayKazCom\Facades\Epay as EpayFacade;
 
 class EpayServiceProvider extends ServiceProvider
 {
@@ -29,6 +30,9 @@ class EpayServiceProvider extends ServiceProvider
      */
     public function register()
     {
+	    $loader = AliasLoader::getInstance();
+	    $loader->alias('Crud', EpayFacade::class);
+
         $this->app->singleton("epay", function($app)
         {
             return new Epay();
