@@ -52,13 +52,6 @@ $checkPay = Epay::checkPay( [ 'order_id' => '01111111111' ] );
 $response = Epay::request( $checkPay->generateUrl() );
 ```
 
-### Check pay example
-```php
-$checkPay = Epay::checkPay( [ 'order_id' => '01111111111' ] );
-
-$response = Epay::request( $checkPay->generateUrl() );
-```
-
 ### Control pay example
 ```php
 $controlPay = Epay::controlPay( [
