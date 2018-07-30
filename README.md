@@ -34,8 +34,7 @@ composer require dosarkz/epay-kazcom
 
 ### Basic auth pay example
 ```php
-$pay = new Epay();
-$pay->basicAuth([
+$pay =  Epay::basicAuth([
               'order_id' => '01111111111',
               'currency' => '398',
               'amount' => 9999,
@@ -48,25 +47,21 @@ $pay->generateUrl();
 
 ### Check pay example
 ```php
-$pay = new Epay();
-$pay->checkPay( [ 'order_id' => '01111111111' ] );
+$checkPay = Epay::checkPay( [ 'order_id' => '01111111111' ] );
 
-$response = $pay->request( $checkPay->generateUrl() );
+$response = Epay::request( $checkPay->generateUrl() );
 ```
 
 ### Check pay example
 ```php
-$pay = new Epay();
-$pay->checkPay( [ 'order_id' => '01111111111' ] );
+$checkPay = Epay::checkPay( [ 'order_id' => '01111111111' ] );
 
-$response = $pay->request( $checkPay->generateUrl() );
+$response = Epay::request( $checkPay->generateUrl() );
 ```
 
 ### Control pay example
 ```php
-$pay = new Epay();
-
-$controlPay = $pay->controlPay( [
+$controlPay = Epay::controlPay( [
     'order_id' => '01111111111',
     'amount' => 9999,
     'approval_code' => '170407',
@@ -76,7 +71,7 @@ $controlPay = $pay->controlPay( [
     'reason' => 'for test'
     ] );
 
-$response = $pay->request( $controlPay->generateUrl() );
+$response = Epay::request( $controlPay->generateUrl() );
 ```
 
 ## Epay responses
@@ -84,11 +79,10 @@ $response = $pay->request( $controlPay->generateUrl() );
 ### Basic auth POST_LINK response parser
 ```php
 $response = request()->input('response');
-$pay = new Epay();
 
 if ($response)
 {
-    $payResponse = $pay->handleBasicAuth( $response );
+    $payResponse = Epay::handleBasicAuth( $response );
 
     $orderId = $payResponse->getOrderId();
 
@@ -103,14 +97,12 @@ if ($response)
 
 ### Check pay response parser
 ```php
-$pay = new Epay();
+$checkPay = Epay::checkPay( [ 'order_id' => '01111111111' ] );
 
-$checkPay = $pay->checkPay( [ 'order_id' => '01111111111' ] );
-
-$response = $pay->request( $pay->generateUrl() );
+$response = Epay::request( $checkPay->generateUrl() );
 
 if ($response) {
-    $checkPayResponse = $pay->handleCheckPay( $response );
+    $checkPayResponse = Epay::handleCheckPay( $response );
     
     Log::info( 'state=' . $checkPayResponse->getPayState() );
     Log::info( 'status=' . ( $checkPayResponse->isSuccess() ? 'success' : 'fail' ));
@@ -120,9 +112,7 @@ if ($response) {
 
 ### Control pay response parser
 ```php
-
-$pay = new Epay();
-$controlPay = $pay->controlPay( [
+$controlPay = Epay::controlPay( [
             'order_id' => '01111111111',
             'amount' => 9999,
             'approval_code' => '170407',
@@ -136,11 +126,11 @@ $url = $controlPay->generateUrl();
             
 if ( is_string($url) ) {
 
-    $response = $pay->request( $url );
+    $response = Epay::request( $url );
 
     if ($response) {
 
-        $controlPayResponse = $pay->handleControlPay( $response );
+        $controlPayResponse = Epay::handleControlPay( $response );
 
         Log::info( 'message=' . $controlPayResponse->getResponseMessage() );
         Log::info( 'status=' . ( $controlPayResponse->isSuccess() ? 'success' : 'fail' ));
